@@ -25,7 +25,7 @@ import es.kairosds.blogservice.service.ArticuloService;
 public class ArticuloController {
 	
 	@Autowired
-	ArticuloService acticuloService;
+	ArticuloService articuloService;
 	
 	@Autowired
 	ComentarioService comentarioService;
@@ -43,8 +43,8 @@ public class ArticuloController {
 		post2.setAutor("Autor2");
 		post2.setContenido("Contenido 2");
 		
-		acticuloService.crearPost(post1);
-		acticuloService.crearPost(post2);
+		articuloService.crearPost(post1);
+		articuloService.crearPost(post2);
 		
 		Comentario comment = new Comentario();
 		
@@ -58,18 +58,23 @@ public class ArticuloController {
 	@PostMapping("/")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Articulo crearPost(@RequestBody Articulo articulo) {
-		return acticuloService.crearPost(articulo);
+		return articuloService.crearPost(articulo);
 	}
 	
 	@GetMapping("/")
 	public List<Articulo> obtenerTodosLosArticulos(){
-		return acticuloService.obtenerTodos();
+		return articuloService.obtenerTodos();
+	}
+	
+	@GetMapping("/{id}")
+	public Articulo obtenerArticulo(@PathVariable Long id) {
+		return articuloService.obtenerArticuloPorId(id).get();
 	}
 	
 	@PostMapping("/{id}/comentario")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Articulo comentarUnPost(@PathVariable Long id, @RequestBody Comentario comentario) throws ComentarioOfensivoException {
-		return acticuloService.comentarUnPost(id,comentario);
+		return articuloService.comentarUnPost(id,comentario);
 		
 	}
 

@@ -56,4 +56,8 @@ public class ArticuloService {
 		}
 	}
 
+	public Optional<Articulo> obtenerArticuloPorId(Long id) {
+		return articuloRepository.findById(id);
+	}
+
 }
