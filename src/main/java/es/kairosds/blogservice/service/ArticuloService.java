@@ -3,6 +3,8 @@ package es.kairosds.blogservice.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +14,23 @@ import es.kairosds.blogservice.model.Texto;
 import es.kairosds.blogservice.model.Articulo;
 import es.kairosds.blogservice.repository.ArticuloRepository;
 
-
 @Service
 public class ArticuloService {
-	
+
 	@Autowired
 	ArticuloRepository articuloRepository;
-	
+
 	@Autowired
-	AnalizadorDeLenguajeService  analizadorDeLenguajeService;
+	AnalizadorDeLenguajeService analizadorDeLenguajeService;
+
+	@Autowired
+	ComentarioService comentarioService;
 
 	public Articulo crearPost(Articulo post) {
 		return articuloRepository.save(post);
 	}
-	
-	public List<Articulo> obtenerTodos(){
+
+	public List<Articulo> obtenerTodos() {
 		return articuloRepository.findAll();
 	}
 
@@ -34,20 +38,22 @@ public class ArticuloService {
 		Optional<Articulo> articulo = articuloRepository.findById(id);
 		Texto text = new Texto();
 		text.setContenido(comentario.getContenido());
-		
-		analizadorDeLenguajeService.analizarComentario(text);
-		
+
+		chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(text));
+
 		if (articulo.isPresent()) {
-			
+			comentario.setArticulo(articulo.get());
+			comentarioService.comentar(comentario);
+			return articuloRepository.save(articulo.get());
 		} else {
-			
+			throw new EntityNotFoundException();
 		}
-		
-		return null;
 	}
-	
-	private void chequearLenguajeOfensivo() throws ComentarioOfensivoException {
-		
+
+	private void chequearLenguajeOfensivo(List<String> palabrotas) throws ComentarioOfensivoException {
+		if (palabrotas.size() > 0) {
+			throw new ComentarioOfensivoException();
+		}
 	}
 
 }
