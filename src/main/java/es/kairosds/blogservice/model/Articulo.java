@@ -1,5 +1,6 @@
 package es.kairosds.blogservice.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,33 +11,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
-@ToString
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Post {
+public class Articulo implements Serializable{
 	
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long postId;
-	
-	private Long autorId;
-	
+	private Long id;
+		
 	private String autor;
 	
-	private String content;
+	private String contenido;
 	
-	@OneToMany(cascade = CascadeType.ALL,
+	@OneToMany(cascade = CascadeType.MERGE,
 			fetch = FetchType.LAZY,
-			mappedBy = "post")
+			mappedBy = "articulo")
 	private List<Comentario> comentarios;
 
 }
