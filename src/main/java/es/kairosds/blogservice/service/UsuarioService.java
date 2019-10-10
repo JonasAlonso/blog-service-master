@@ -22,7 +22,6 @@ public class UsuarioService {
 	}
 	
     public void borrarUsuario(long id) {
-
     	usuarioRepository.deleteById(id);
     }
 
