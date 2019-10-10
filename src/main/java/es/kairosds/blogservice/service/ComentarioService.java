@@ -12,8 +12,8 @@ public class ComentarioService {
 	@Autowired
 	ComentarioRepository comentarioRepository;
 	
-	public void comentar(Comentario comentario){
-		comentarioRepository.save(comentario);
+	public Comentario comentar(Comentario comentario){
+		return comentarioRepository.save(comentario);
 	}
 
 }

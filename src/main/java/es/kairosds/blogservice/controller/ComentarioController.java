@@ -23,7 +23,5 @@ public class ComentarioController {
 		return null;
 		
 	}
-	
-	
 
 }

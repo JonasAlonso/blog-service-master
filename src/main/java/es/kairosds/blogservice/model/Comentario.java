@@ -21,16 +21,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Comentario implements Serializable {
 	
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long comentarioId;
+	private Long id;
 	
 	private String comentarista;
 	
@@ -38,10 +34,11 @@ public class Comentario implements Serializable {
 	
 	private final LocalDate publicacion = LocalDate.now();
 	
-	@JsonIgnore
+
 	@ManyToOne ( fetch = FetchType.LAZY,
-	cascade = CascadeType.ALL)
-	@JoinColumn(name = "postId", nullable = false)
-	private Post post;
+	cascade = CascadeType.MERGE)
+	@JoinColumn(name = "articulo_id", nullable = false)
+	@JsonIgnore
+	Articulo articulo;
 
 }
