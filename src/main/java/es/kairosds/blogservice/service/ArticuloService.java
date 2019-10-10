@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import es.kairosds.blogservice.exception.ComentarioOfensivoException;
 import es.kairosds.blogservice.model.Comentario;
+import es.kairosds.blogservice.model.Texto;
 import es.kairosds.blogservice.model.Articulo;
 import es.kairosds.blogservice.repository.ArticuloRepository;
 
@@ -17,6 +18,9 @@ public class ArticuloService {
 	
 	@Autowired
 	ArticuloRepository articuloRepository;
+	
+	@Autowired
+	AnalizadorDeLenguajeService  analizadorDeLenguajeService;
 
 	public Articulo crearPost(Articulo post) {
 		return articuloRepository.save(post);
@@ -28,6 +32,10 @@ public class ArticuloService {
 
 	public Articulo comentarUnPost(Long id, Comentario comentario) throws ComentarioOfensivoException {
 		Optional<Articulo> articulo = articuloRepository.findById(id);
+		Texto text = new Texto();
+		text.setContenido(comentario.getContenido());
+		
+		analizadorDeLenguajeService.analizarComentario(text);
 		
 		if (articulo.isPresent()) {
 			
