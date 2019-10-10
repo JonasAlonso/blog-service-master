@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import es.kairosds.blogservice.exception.ComentarioOfensivoException;
+
 @ControllerAdvice
 public class RestControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -20,4 +22,14 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 		return handleExceptionInternal(ex,
 				bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
+	
+	@ExceptionHandler(ComentarioOfensivoException.class)
+	protected ResponseEntity<Object> handleComentarioOfensivo(RuntimeException ex,
+																WebRequest request){
+		String bodyOfResponse = "Resource not found";
+		return handleExceptionInternal(ex,
+				bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		
+	}
+	
 }
