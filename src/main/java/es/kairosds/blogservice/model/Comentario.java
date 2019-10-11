@@ -2,6 +2,7 @@ package es.kairosds.blogservice.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ public class Comentario implements Serializable {
 	
 	private String contenido;
 	
-	private final LocalDate publicacion = LocalDate.now();
+	private final LocalDateTime publicacion = LocalDateTime.now();
 	
 
 	@ManyToOne ( fetch = FetchType.LAZY,
