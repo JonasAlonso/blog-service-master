@@ -39,7 +39,7 @@ public class ArticuloService {
 		Texto text = new Texto();
 		text.setContenido(comentario.getContenido());
 
-		chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(text));
+		//chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(text));
 
 		if (articulo.isPresent()) {
 			comentario.setArticulo(articulo.get());
