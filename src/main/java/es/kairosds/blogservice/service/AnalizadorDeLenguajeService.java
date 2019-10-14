@@ -12,7 +12,7 @@ import es.kairosds.blogservice.model.Texto;
 @FeignClient(name = "analizador-de-texto", url = "${analizador.microservicio.url}")
 public interface AnalizadorDeLenguajeService {
 	
-	@RequestMapping( method = RequestMethod.POST, value = "/analizador")
+	@RequestMapping( method = RequestMethod.POST, value = "/analizador/")
 	List<String> analizarComentario(@RequestBody Texto texto);
 
 	
