@@ -23,10 +23,10 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 				bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 	
-	@ExceptionHandler(ComentarioOfensivoException.class)
-	protected ResponseEntity<Object> handleComentarioOfensivo(RuntimeException ex,
+	@ExceptionHandler(value = {ComentarioOfensivoException.class})
+	protected ResponseEntity<Object> handleComentarioOfensivo(ComentarioOfensivoException ex,
 																WebRequest request){
-		String bodyOfResponse = "Resource not found";
+		String bodyOfResponse = "El comentario contiene lenguaje obsceno.";
 		return handleExceptionInternal(ex,
 				bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 		
