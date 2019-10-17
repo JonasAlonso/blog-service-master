@@ -18,7 +18,7 @@ import es.kairosds.blogservice.exception.ComentarioOfensivoException;
 public class RestControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = {EntityNotFoundException.class ,NoSuchElementException.class})
-	protected ResponseEntity<Object> handleConflict(EntityNotFoundException ex,
+	protected ResponseEntity<Object> handleConflict(NoSuchElementException ex,
 													WebRequest request){
 		String bodyOfResponse = "Resource not found";
 		return handleExceptionInternal(ex,

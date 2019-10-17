@@ -1,9 +1,8 @@
 package es.kairosds.blogservice.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,25 +37,22 @@ public class ArticuloService {
 		return articuloRepository.findAll();
 	}
 
-	public Articulo comentarUnPost(Long id, Comentario comentario) throws ComentarioOfensivoException {
+	public Articulo comentarUnPost(Long id, Comentario comentario)
+			throws ComentarioOfensivoException, NoSuchElementException {
 		log.info("Buscando articulo con id: {}", id);
 		Optional<Articulo> articulo = articuloRepository.findById(id);
 
-		log.info("Llamando al servicio para analizar si el comentario contiene lenguaje ofensivo...");		
-		chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(Texto.builder().contenido(comentario.getContenido()).build()));
+		log.info("Llamando al servicio para analizar si el comentario contiene lenguaje ofensivo...");
+		chequearLenguajeOfensivo(analizadorDeLenguajeService
+				.analizarComentario(Texto.builder().contenido(comentario.getContenido()).build()));
 
-		if (articulo.isPresent()) {
-			comentario.setArticulo(articulo.get());
-			comentarioService.comentar(comentario);
-			return articuloRepository.save(articulo.get());
-		} else {
-			log.error("Arcuticulo con id {} no encontrado.", id);
-			throw new EntityNotFoundException();
-		}
+		comentario.setArticulo(articulo.get());
+		comentarioService.comentar(comentario);
+		return articuloRepository.save(articulo.get());
 	}
 
 	private void chequearLenguajeOfensivo(ResponseEntity<RespuestaAnalisis> r) throws ComentarioOfensivoException {
-		if (r.getBody().getLenguajeOfensivo().size() > 0){
+		if (r.getBody().getLenguajeOfensivo().size() > 0) {
 			throw new ComentarioOfensivoException();
 		}
 	}
