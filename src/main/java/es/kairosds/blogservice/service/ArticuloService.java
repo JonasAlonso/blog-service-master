@@ -41,12 +41,9 @@ public class ArticuloService {
 	public Articulo comentarUnPost(Long id, Comentario comentario) throws ComentarioOfensivoException {
 		log.info("Buscando articulo con id: {}", id);
 		Optional<Articulo> articulo = articuloRepository.findById(id);
-		Texto text = new Texto();
-		text.setContenido(comentario.getContenido());
 
-		log.info("Llamando al servicio para analizar si el comentario contiene lenguaje ofensivo...");
-				
-		chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(text));
+		log.info("Llamando al servicio para analizar si el comentario contiene lenguaje ofensivo...");		
+		chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(Texto.builder().contenido(comentario.getContenido()).build()));
 
 		if (articulo.isPresent()) {
 			comentario.setArticulo(articulo.get());
