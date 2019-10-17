@@ -18,10 +18,12 @@ import es.kairosds.blogservice.exception.ComentarioOfensivoException;
 import es.kairosds.blogservice.model.Articulo;
 import es.kairosds.blogservice.model.Comentario;
 import es.kairosds.blogservice.service.ComentarioService;
+import lombok.extern.slf4j.Slf4j;
 import es.kairosds.blogservice.service.ArticuloService;
 
 @RestController
 @RequestMapping("/articulos")
+@Slf4j
 public class ArticuloController {
 	
 	@Autowired
@@ -74,6 +76,7 @@ public class ArticuloController {
 	@PostMapping("/{id}/comentario")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Articulo comentarUnPost(@PathVariable Long id, @RequestBody Comentario comentario) throws ComentarioOfensivoException {
+		log.info("Comentando el articulo con id: {}", id);
 		return articuloService.comentarUnPost(id,comentario);
 		
 	}
