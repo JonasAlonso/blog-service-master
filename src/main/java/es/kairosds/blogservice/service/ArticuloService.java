@@ -6,15 +6,19 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import es.kairosds.blogservice.exception.ComentarioOfensivoException;
 import es.kairosds.blogservice.model.Comentario;
+import es.kairosds.blogservice.model.RespuestaAnalisis;
 import es.kairosds.blogservice.model.Texto;
 import es.kairosds.blogservice.model.Articulo;
 import es.kairosds.blogservice.repository.ArticuloRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class ArticuloService {
 
 	@Autowired
@@ -35,10 +39,13 @@ public class ArticuloService {
 	}
 
 	public Articulo comentarUnPost(Long id, Comentario comentario) throws ComentarioOfensivoException {
+		log.info("Buscando articulo con id: {}", id);
 		Optional<Articulo> articulo = articuloRepository.findById(id);
 		Texto text = new Texto();
 		text.setContenido(comentario.getContenido());
 
+		log.info("Llamando al servicio para analizar si el comentario contiene lenguaje ofensivo...");
+				
 		chequearLenguajeOfensivo(analizadorDeLenguajeService.analizarComentario(text));
 
 		if (articulo.isPresent()) {
@@ -46,12 +53,13 @@ public class ArticuloService {
 			comentarioService.comentar(comentario);
 			return articuloRepository.save(articulo.get());
 		} else {
+			log.error("Arcuticulo con id {} no encontrado.", id);
 			throw new EntityNotFoundException();
 		}
 	}
 
-	private void chequearLenguajeOfensivo(List<String> palabrotas) throws ComentarioOfensivoException {
-		if (palabrotas.size() > 0) {
+	private void chequearLenguajeOfensivo(ResponseEntity<RespuestaAnalisis> r) throws ComentarioOfensivoException {
+		if (r.getBody().getLenguajeOfensivo().size() > 0){
 			throw new ComentarioOfensivoException();
 		}
 	}
