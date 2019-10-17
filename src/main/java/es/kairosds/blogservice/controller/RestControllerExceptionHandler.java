@@ -2,6 +2,8 @@ package es.kairosds.blogservice.controller;
 
 import java.util.NoSuchElementException;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,8 @@ import es.kairosds.blogservice.exception.ComentarioOfensivoException;
 @ControllerAdvice
 public class RestControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(NoSuchElementException.class)
-	protected ResponseEntity<Object> handleConflict(RuntimeException ex,
+	@ExceptionHandler(value = {EntityNotFoundException.class ,NoSuchElementException.class})
+	protected ResponseEntity<Object> handleConflict(EntityNotFoundException ex,
 													WebRequest request){
 		String bodyOfResponse = "Resource not found";
 		return handleExceptionInternal(ex,
