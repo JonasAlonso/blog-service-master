@@ -1,7 +1,6 @@
 package es.kairosds.blogservice.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -21,6 +20,11 @@ import lombok.Data;
 @Entity
 public class Comentario implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8126224675389688601L;
+
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
 	private Long id;

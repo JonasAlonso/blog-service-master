@@ -17,6 +17,11 @@ import lombok.Data;
 @Entity
 public class Articulo implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 548576713752939619L;
+
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
 	private Long id;
