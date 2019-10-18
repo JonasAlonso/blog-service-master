@@ -53,7 +53,7 @@ public class ArticuloService {
 
 	private void chequearLenguajeOfensivo(ResponseEntity<RespuestaAnalisis> r) throws ComentarioOfensivoException {
 		if (r.getBody().getLenguajeOfensivo().size() > 0) {
-			throw new ComentarioOfensivoException();
+			throw new ComentarioOfensivoException(r.getBody().getLenguajeOfensivo().toString());
 		}
 	}
 

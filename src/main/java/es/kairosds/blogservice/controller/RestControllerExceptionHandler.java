@@ -28,7 +28,7 @@ public class RestControllerExceptionHandler extends ResponseEntityExceptionHandl
 	@ExceptionHandler(value = {ComentarioOfensivoException.class})
 	protected ResponseEntity<Object> handleComentarioOfensivo(ComentarioOfensivoException ex,
 																WebRequest request){
-		String bodyOfResponse = "El comentario contiene lenguaje obsceno.";
+		String bodyOfResponse = "El comentario contiene lenguaje obsceno. Palabras censuradas: " + ex.getMessage();
 		return handleExceptionInternal(ex,
 				bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 		
