@@ -34,6 +34,7 @@ public class ArticuloController {
 		
 	@PostConstruct
 	public void init() {
+	
 		
 		Articulo post1 = new Articulo();
 		
@@ -54,7 +55,7 @@ public class ArticuloController {
 		comment.setContenido("Contenido 2");
 		comment.setArticulo(post1);
 	
-		comentarioService.comentar(comment);
+		comentarioService.comentar(comment); 
 	}
 	
 	@PostMapping("/")
