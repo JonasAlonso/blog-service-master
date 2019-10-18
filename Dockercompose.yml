@@ -6,18 +6,18 @@ services:
     image: jonasalonsokds/blog-service-master
     links: 
       - "db"
-      - "analizador-de-texto"
+      - "analizador"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db/blog
-      ANALIZADOR_MICROSERVICE_URL: analizador-de-texto:8081
+      ANALIZADOR_MICROSERVICE_URL: analizador:8081
     ports:
       - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
 
-  swearing:
-    image: jonasalonsokds/analizador-de-texto
+  analizador:
+    image: jonasalonsokds/analizador
 
   db:
     image: mysql
