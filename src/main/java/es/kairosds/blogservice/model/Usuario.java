@@ -14,11 +14,11 @@ import lombok.Data;
 public class Usuario {
 	
 	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private long idUsuario;
-	
-	private String nombre;
-	
-	private String pswd;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+
+	private String username;
+
+	private String password;
 
 }

@@ -1,28 +1,43 @@
 package es.kairosds.blogservice.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.kairosds.blogservice.model.Usuario;
-import es.kairosds.blogservice.service.UsuarioService;
+import es.kairosds.blogservice.repository.UsuarioRepository;
 
 @RestController
-@RequestMapping("/usuarios")
 public class UsuarioController {
 
-	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioRepository usuarioRepository;
 
-	@PostMapping
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	public long insertOne(@RequestBody Usuario usuario) {
+	public UsuarioController(UsuarioRepository usuarioRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.usuarioRepository = usuarioRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
-		return 1;
-	//s	return usuarioService.insertOne(usuario);
+	@PostMapping("/users/")
+	public void saveUsuario(@RequestBody Usuario user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		usuarioRepository.save(user);
+	}
+
+	@GetMapping("/users/")
+	public List<Usuario> getAllUsuarios() {
+		return usuarioRepository.findAll();
+	}
+
+	@GetMapping("/users/{username}")
+	public Usuario getUsuario(@PathVariable String username) {
+		return usuarioRepository.findByUsername(username);
 	}
 
 }
