@@ -2,6 +2,7 @@ package es.kairosds.blogservice.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +16,11 @@ import es.kairosds.blogservice.repository.UsuarioRepository;
 @RestController
 public class UsuarioController {
 
+	@Autowired
 	private UsuarioRepository usuarioRepository;
 
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	public UsuarioController(UsuarioRepository usuarioRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.usuarioRepository = usuarioRepository;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-	}
 
 	@PostMapping("/users/")
 	public void saveUsuario(@RequestBody Usuario user) {
